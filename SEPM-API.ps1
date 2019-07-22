@@ -6,7 +6,7 @@ param(
     $SEPpass,
     $computerName,
     $SEPMServer,
-    [ValidateSet('ActiveScan','FullScan','EOCScan')]
+    [ValidateSet('ActiveScan','FullScan','EOCScan','UpdateContent')]
     $Command
 )
 
@@ -43,6 +43,8 @@ $fullScanURL = $SEPMAPIBaseURL + "command-queue/fullscan"
 
 $EOCScanURL = $SEPMAPIBaseURL + "command-queue/eoc"
 
+$ContentUpdateURL = $SEPMAPIBaseURL + "command-queue/updatecontent"
+
 $Body = "{""username"" : ""$SEPuser"", ""password"" : ""$SEPpass"", ""domain"" :  """" }"
 
 $Result = Invoke-RestMethod -Method Post -Uri $AuthenticateURL -Body $Body -ContentType "Application/JSON"
@@ -62,6 +64,7 @@ Switch($Command)
     'ActiveScan' {$result = Invoke-WebRequest -Method Post -Uri $activeScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers}
     'FullScan' {$result = Invoke-WebRequest -Method Post -Uri $fullScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers}
     'EOCScan' {$result = Invoke-WebRequest -Method Post -Uri $EOCScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers}
+    'UpdateContent' {$result = Invoke-WebRequest -Method Post -Uri $ContentUpdateURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers}
     default {
         Write-Error "Computer ID $uniqueId"
         exit 1
