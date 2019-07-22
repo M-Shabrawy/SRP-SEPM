@@ -4,9 +4,9 @@ param(
     [string]
     $SEPuser,
     $SEPpass,
-    $computerName,
+    $ID,
     $SEPMServer,
-    [ValidateSet('ActiveScan','FullScan','EOCScan','UpdateContent')]
+    [ValidateSet('ActiveScan','FullScan','EOCScan','UpdateContent','CommandStatus','CancelCommand')]
     $Command
 )
 
@@ -45,9 +45,11 @@ $EOCScanURL = $SEPMAPIBaseURL + "command-queue/eoc"
 
 $ContentUpdateURL = $SEPMAPIBaseURL + "command-queue/updatecontent"
 
+$CommanStatusURL = $SEPMAPIBaseURL + "command-queue/"
+
 $Body = "{""username"" : ""$SEPuser"", ""password"" : ""$SEPpass"", ""domain"" :  """" }"
 
-$Result = Invoke-RestMethod -Method Post -Uri $AuthenticateURL -Body $Body -ContentType "Application/JSON"
+$Result = Invoke-RestMethod -Method Post -Uri $AuthenticateURL -Body $Body -ContentType "Application/JSON" -UseBasicParsing
 
 $Token = $Result.token
 
@@ -55,31 +57,31 @@ $Headers = @{
     Authorization = "Bearer $Token"
     }
 
-$Computer = (Invoke-WebRequest -Method Get -Uri $ComputerURL"?computerName="$computerName -ContentType "Application/JSON" -Headers $Headers).Content
+$Computer = (Invoke-WebRequest -Method Get -Uri $ComputerURL"?computerName="$ID -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing).Content
 
 $uniqueId = ([regex]::Match($Computer,'"uniqueId"\:"(?<uniqueId>[^"]+)"')).Groups[1].Value
 
 Switch($Command)
 {
-    'ActiveScan' {$result = Invoke-WebRequest -Method Post -Uri $activeScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers}
-    'FullScan' {$result = Invoke-WebRequest -Method Post -Uri $fullScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers}
-    'EOCScan' {$result = Invoke-WebRequest -Method Post -Uri $EOCScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers}
-    'UpdateContent' {$result = Invoke-WebRequest -Method Post -Uri $ContentUpdateURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers}
+    'ActiveScan' {$result = Invoke-WebRequest -Method Post -Uri $activeScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
+    'FullScan' {$result = Invoke-WebRequest -Method Post -Uri $fullScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
+    'EOCScan' {$result = Invoke-WebRequest -Method Post -Uri $EOCScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
+    'UpdateContent' {$result = Invoke-WebRequest -Method Post -Uri $ContentUpdateURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
+    'CommandStatus' {$result = Invoke-WebRequest -Method Get -Uri $CommanStatusURL$ID -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
+    'CommandCancel' {$result = Invoke-WebRequest -Method Post -Uri $CommanStatusURL$ID"/cancel" -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
     default {
-        Write-Error "Computer ID $uniqueId"
+        write-error "Computer ID $uniqueId"
         exit 1
         }
 }
 
 if ($result.StatusCode -ne '200')
 {
-    Write-Error $Result.Content
+    write-error $Result.Content
 }
 else
 {
-    Write-Host "Successful $Command"
-    Write-Host $Result.Content
+    "Successful $Command"
+    $Result.Content
     exit 0
 }
-
-
