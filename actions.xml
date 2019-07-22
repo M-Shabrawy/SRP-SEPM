@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<remv1:Remediation-Plugin xmlns:remv1="RemediationVersion1.xsd" Name="Symantec Enpoint Protection" Version="1" IsLogRhythmPlugin="false" Guid="bc63c14c-c697-422a-9a05-89ff1def0859">
+<remv1:Remediation-Plugin xmlns:remv1="RemediationVersion1.xsd" Name="Symantec Enpoint Protection" Version="1" IsLogRhythmPlugin="false" Guid="00000000-0000-0000-0000-000000000000">
   <remv1:Action Name="Run Active Scan" Command="powershell.exe">
-    <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1 -noprofile" Order="1" />
-	<remv1:StringParameter Name="Target Computer Name" Switch="-cmputerName" Order="2">
+    <remv1:ConstantParameter Name="Script" Switch="-noprofile -file SEPM-API.ps1" Order="1" />
+	<remv1:StringParameter Name="Target Computer Name" Switch="-computerName" Order="2">
       <remv1:DefaultInput>
         <remv1:DHostName />
       </remv1:DefaultInput>
@@ -17,8 +17,8 @@
     </remv1:EncryptedParameter>
 	</remv1:Action>
 	<remv1:Action Name="Run Full Scan" Command="powershell.exe">
-    <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1 -noprofile" Order="1" />
-	<remv1:StringParameter Name="Target Computer Name" Switch="-cmputerName" Order="2">
+    <remv1:ConstantParameter Name="Script" Switch="-noprofile -file SEPM-API.ps1" Order="1" />
+	<remv1:StringParameter Name="Target Computer Name" Switch="-computerName" Order="2">
       <remv1:DefaultInput>
         <remv1:DHostName />
       </remv1:DefaultInput>
@@ -33,8 +33,8 @@
     </remv1:EncryptedParameter>
 	</remv1:Action>
 	<remv1:Action Name="Run EOC Scan" Command="powershell.exe">
-    <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1 -noprofile" Order="1" />
-	<remv1:StringParameter Name="Target Computer Name" Switch="-cmputerName" Order="2">
+    <remv1:ConstantParameter Name="Script" Switch="-noprofile -file SEPM-API.ps1" Order="1" />
+	<remv1:StringParameter Name="Target Computer Name" Switch="-computerName" Order="2">
       <remv1:DefaultInput>
         <remv1:DHostName />
       </remv1:DefaultInput>
@@ -49,8 +49,8 @@
     </remv1:EncryptedParameter>
 	</remv1:Action>
 	<remv1:Action Name="Run Update Content" Command="powershell.exe">
-    <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1 -noprofile" Order="1" />
-	<remv1:StringParameter Name="Target Computer Name" Switch="-cmputerName" Order="2">
+    <remv1:ConstantParameter Name="Script" Switch="-noprofile -file SEPM-API.ps1" Order="1" />
+	<remv1:StringParameter Name="Target Computer Name" Switch="-computerName" Order="2">
       <remv1:DefaultInput>
         <remv1:DHostName />
       </remv1:DefaultInput>
