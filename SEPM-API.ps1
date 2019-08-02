@@ -6,11 +6,11 @@ param(
     $SEPpass,
     $ID,
     $SEPMServer,
-    [ValidateSet('ActiveScan','FullScan','EOCScan','UpdateContent','CommandStatus','CancelCommand')]
+    [ValidateSet('ActiveScan','FullScan','NetQuarantine','NetUnQuarantine','EOCScan','UpdateContent','CommandStatus','CancelCommand')]
     $Command
 )
-
-add-type @"
+Function InSecure{
+	add-type @"
     using System.Net;
     using System.Security.Cryptography.X509Certificates;
     public class TrustAllCertsPolicy : ICertificatePolicy {
@@ -24,6 +24,8 @@ add-type @"
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3, [Net.SecurityProtocolType]::Tls, [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12
+}
+
 
 trap [Exception] 
 {
@@ -42,6 +44,8 @@ $activeScanURL = $SEPMAPIBaseURL + "command-queue/activescan"
 $fullScanURL = $SEPMAPIBaseURL + "command-queue/fullscan"
 
 $EOCScanURL = $SEPMAPIBaseURL + "command-queue/eoc"
+
+$NetQuarantineURL = $SEPMAPIBaseURL + "command-queue/quarantine"
 
 $ContentUpdateURL = $SEPMAPIBaseURL + "command-queue/updatecontent"
 
@@ -66,6 +70,8 @@ Switch($Command)
     'ActiveScan' {$result = Invoke-WebRequest -Method Post -Uri $activeScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
     'FullScan' {$result = Invoke-WebRequest -Method Post -Uri $fullScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
     'EOCScan' {$result = Invoke-WebRequest -Method Post -Uri $EOCScanURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
+	'NetQuarantine' {$result = Invoke-WebRequest -Method Post -Uri $NetQuarantineURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
+	'NetUnQuarantine' {$result = Invoke-WebRequest -Method Post -Uri $NetQuarantineURL"?computer_ids="$uniqueId"&"undo=true -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
     'UpdateContent' {$result = Invoke-WebRequest -Method Post -Uri $ContentUpdateURL"?computer_ids="$uniqueId -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
     'CommandStatus' {$result = Invoke-WebRequest -Method Get -Uri $CommanStatusURL$ID -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
     'CommandCancel' {$result = Invoke-WebRequest -Method Post -Uri $CommanStatusURL$ID"/cancel" -ContentType "Application/JSON" -Headers $Headers -UseBasicParsing}
