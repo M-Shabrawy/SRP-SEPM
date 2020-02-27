@@ -1,68 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<remv1:Remediation-Plugin xmlns:remv1="RemediationVersion1.xsd" Name="Symantec Enpoint Protection" Version="2" IsLogRhythmPlugin="false" Guid="bc63c14c-c697-422a-9a05-89ff1def0859">
+<remv1:Remediation-Plugin xmlns:remv1="RemediationVersion1.xsd" Name="Symantec Enpoint Protection" Version="3" IsLogRhythmPlugin="false" Guid="bc63c14c-c697-422a-9a05-89ff1def0859">
   <remv1:Action Name="Run Active Scan" Command="powershell.exe">
     <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1" Order="1" />
-	<remv1:StringParameter Name="Target Computer Name" Switch="-ID" Order="2">
+	<remv1:StringParameter Name="Target Computer Name" Switch="-ID " Order="2">
       <remv1:DefaultInput>
         <remv1:DHostName />
       </remv1:DefaultInput>
     </remv1:StringParameter>
     <remv1:ConstantParameter Name="Command" Switch="-Command ActiveScan" Order="3" />
-    <remv1:StringParameter Name="SEPM Server" Switch="-SEPMServer" Order="4">
-    </remv1:StringParameter>
-	<remv1:StringParameter Name="SEPM Username" Switch="-SEPUser" Order="5">
-    </remv1:StringParameter>
-	<remv1:EncryptedParameter>
-		<remv1:StringParameter Name="SEPM Password" Switch="-SEPpass" Order="6" />
-    </remv1:EncryptedParameter>
 	</remv1:Action>
 	<remv1:Action Name="Run Full Scan" Command="powershell.exe">
     <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1" Order="1" />
-	<remv1:StringParameter Name="Target Computer Name" Switch="-ID" Order="2">
+	<remv1:StringParameter Name="Target Computer Name" Switch="-ID " Order="2">
       <remv1:DefaultInput>
         <remv1:DHostName />
       </remv1:DefaultInput>
     </remv1:StringParameter>
     <remv1:ConstantParameter Name="Command" Switch="-Command FullScan" Order="3" />
-    <remv1:StringParameter Name="SEPM Server" Switch="-SEPMServer" Order="4">
-    </remv1:StringParameter>
-	<remv1:StringParameter Name="SEPM Username" Switch="-SEPUser" Order="5">
-    </remv1:StringParameter>
-	<remv1:EncryptedParameter>
-	<remv1:StringParameter Name="SEPM Password" Switch="-SEPpass" Order="6" />
-    </remv1:EncryptedParameter>
 	</remv1:Action>
   <remv1:Action Name="Network Quarantine" Command="powershell.exe">
     <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1" Order="1" />
-    <remv1:StringParameter Name="Target Computer Name" Switch="-ID" Order="2">
+    <remv1:StringParameter Name="Target Computer Name" Switch="-ID " Order="2">
       <remv1:DefaultInput>
         <remv1:DHostName />
       </remv1:DefaultInput>
     </remv1:StringParameter>
     <remv1:ConstantParameter Name="Command" Switch="-Command NetQuarantine" Order="3" />
-    <remv1:StringParameter Name="SEPM Server" Switch="-SEPMServer" Order="4">
-    </remv1:StringParameter>
-    <remv1:StringParameter Name="SEPM Username" Switch="-SEPUser" Order="5">
-    </remv1:StringParameter>
-    <remv1:EncryptedParameter>
-      <remv1:StringParameter Name="SEPM Password" Switch="-SEPpass" Order="6" />
-    </remv1:EncryptedParameter>
   </remv1:Action>
   <remv1:Action Name="Remove Network Quarantine" Command="powershell.exe">
     <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1" Order="1" />
-    <remv1:StringParameter Name="Target Computer Name" Switch="-ID" Order="2">
+    <remv1:StringParameter Name="Target Computer Name" Switch="-ID " Order="2">
       <remv1:DefaultInput>
         <remv1:DHostName />
       </remv1:DefaultInput>
     </remv1:StringParameter>
     <remv1:ConstantParameter Name="Command" Switch="-Command NetUnQuarantine" Order="3" />
-    <remv1:StringParameter Name="SEPM Server" Switch="-SEPMServer" Order="4">
-    </remv1:StringParameter>
-    <remv1:StringParameter Name="SEPM Username" Switch="-SEPUser" Order="5">
-    </remv1:StringParameter>
-    <remv1:EncryptedParameter>
-      <remv1:StringParameter Name="SEPM Password" Switch="-SEPpass" Order="6" />
-    </remv1:EncryptedParameter>
   </remv1:Action>
   <remv1:Action Name="Run EOC Scan" Command="powershell.exe">
     <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1" Order="1" />
@@ -72,13 +44,6 @@
       </remv1:DefaultInput>
     </remv1:StringParameter>
     <remv1:ConstantParameter Name="Command" Switch="-Command EOCScan" Order="3" />
-    <remv1:StringParameter Name="SEPM Server" Switch="-SEPMServer" Order="4">
-    </remv1:StringParameter>
-	<remv1:StringParameter Name="SEPM Username" Switch="-SEPUser" Order="5">
-    </remv1:StringParameter>
-	<remv1:EncryptedParameter>
-		<remv1:StringParameter Name="SEPM Password" Switch="-SEPpass" Order="6" />
-    </remv1:EncryptedParameter>
 	</remv1:Action>
 	<remv1:Action Name="Run Update Content" Command="powershell.exe">
     <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1" Order="1" />
@@ -88,38 +53,27 @@
       </remv1:DefaultInput>
     </remv1:StringParameter>
     <remv1:ConstantParameter Name="Command" Switch="-Command UpdateContent" Order="3" />
-    <remv1:StringParameter Name="SEPM Server" Switch="-SEPMServer" Order="4">
-    </remv1:StringParameter>
-	<remv1:StringParameter Name="SEPM Username" Switch="-SEPUser" Order="5">
-    </remv1:StringParameter>
-	<remv1:EncryptedParameter>
-		<remv1:StringParameter Name="SEPM Password" Switch="-SEPpass" Order="6" />
-    </remv1:EncryptedParameter>
 	</remv1:Action>
 	<remv1:Action Name="Get Command Status" Command="powershell.exe">
     <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1" Order="1" />
-	<remv1:StringParameter Name="Command ID" Switch="-ID" Order="2">
+	<remv1:StringParameter Name="Command ID" Switch="-ID " Order="2">
     </remv1:StringParameter>
     <remv1:ConstantParameter Name="Command" Switch="-Command CommandStatus" Order="3" />
-    <remv1:StringParameter Name="SEPM Server" Switch="-SEPMServer" Order="4">
-    </remv1:StringParameter>
-	<remv1:StringParameter Name="SEPM Username" Switch="-SEPUser" Order="5">
-    </remv1:StringParameter>
-	<remv1:EncryptedParameter>
-		<remv1:StringParameter Name="SEPM Password" Switch="-SEPpass" Order="6" />
-    </remv1:EncryptedParameter>
 	</remv1:Action>
 	<remv1:Action Name="Cancel Command" Command="powershell.exe">
     <remv1:ConstantParameter Name="Script" Switch="-file SEPM-API.ps1" Order="1" />
-	<remv1:StringParameter Name="Command ID" Switch="-ID" Order="2">
+	<remv1:StringParameter Name="Command ID" Switch="-ID " Order="2">
     </remv1:StringParameter>
     <remv1:ConstantParameter Name="Command" Switch="-Command CancelCommand" Order="3" />
-    <remv1:StringParameter Name="SEPM Server" Switch="-SEPMServer" Order="4">
-    </remv1:StringParameter>
-	<remv1:StringParameter Name="SEPM Username" Switch="-SEPUser" Order="5">
-    </remv1:StringParameter>
-	<remv1:EncryptedParameter>
-		<remv1:StringParameter Name="SEPM Password" Switch="-SEPpass" Order="6" />
-    </remv1:EncryptedParameter>
 	</remv1:Action>
+  <remv1:Action Name="Setup" Command="powershell.exe">
+    <remv1:ConstantParameter Name="Script" Switch="-file SEPM-Setup.ps1" Order="1" />
+    <remv1:StringParameter Name="SEPM Server" Switch="-SEPMServer " Order="2">
+    </remv1:StringParameter>
+    <remv1:StringParameter Name="SEPM Username" Switch="-SEPUser " Order="3">
+    </remv1:StringParameter>
+    <remv1:EncryptedParameter>
+      <remv1:StringParameter Name="SEPM Password" Switch="-SEPpass " Order="4" />
+    </remv1:EncryptedParameter>
+  </remv1:Action>
 </remv1:Remediation-Plugin>
