@@ -5,7 +5,8 @@ param(
     $ID,
     [ValidateSet('ActiveScan','FullScan','NetQuarantine','NetUnQuarantine','EOCScan','UpdateContent','CommandStatus','CancelCommand')]
     $Command,
-    $ConfigFile = "C:\Program Files\LogRhythm\Smart Response Plugins\SEPM.xml"
+    $ConfigFile = "C:\Program Files\LogRhythm\Smart Response Plugins\SEPM.xml",
+    $Port = "8446"
 )
 
 Function Disable-SSLError{
@@ -78,7 +79,7 @@ Function Get-ComputerID{
 }
 Get-Config
 
-$SEPMAPIBaseURL = "https://"+$SEPMServer+":8446/sepm/api/v1/"
+$SEPMAPIBaseURL = "https://"+$SEPMServer+":"+$Port+"/sepm/api/v1/"
 $AuthenticateURL = $SEPMAPIBaseURL + "identity/authenticate"
 $ComputerURL = $SEPMAPIBaseURL + "computers"
 $activeScanURL = $SEPMAPIBaseURL + "command-queue/activescan"

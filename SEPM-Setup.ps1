@@ -64,8 +64,6 @@ Function Validate-Input
         $Result = Invoke-RestMethod -Method Post -Uri $AuthenticateURL -Body $Body -ContentType "Application/JSON" -UseBasicParsing
     }
     catch {
-        
-		}
         if($message -eq "The remote server returned an error: (401) Unauthorized."){
             write-host "Invalid Credentials."
 			write-error "Error: Invalid or Incorrect Credentials provided."
@@ -78,6 +76,7 @@ Function Validate-Input
 			throw "ExecutionFailure"
             exit
 		}
+    }
 }
 
 
