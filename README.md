@@ -1,5 +1,5 @@
-### SRP-SEPM
-##LogRhythm SmartResponse Plugin for Symantec Endpoint Protection Manager integration
+# SRP-SEPM
+LogRhythm SmartResponse Plugin for Symantec Endpoint Protection Manager integration
 
 You must have Symantec Endpoint Protection Manager System Administrator privileges to use REST API commands.
 
