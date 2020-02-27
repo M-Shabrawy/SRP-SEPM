@@ -39,8 +39,10 @@ Function Get-Config{
             Write-Host ("Configuration file found: " + $ConfigFile)
             $Credentials = Import-Clixml -Path $ConfigFile
             $SEPMServer =  [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR((($Credentials.SEPHost))))
-            $SEPuser =  [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR((($Credentials.SEPUser))))
-            $SEPpass =  [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR((($Credentials.SEPPass))))
+            $SEPUser =  [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR((($Credentials.SEPUser))))
+            $SEPDomain =  [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR((($Credentials.SEPDomain))))
+            $SEPPass =  [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR((($Credentials.SEPPass))))
+
         }
        else{
            Write-Host ("Configuration file not found. Please use Setup action to creat: " + $ConfigFile)
@@ -55,7 +57,7 @@ Function Get-Config{
 
 Function Get-APIToken{
 
-    $Body = "{""username"" : ""$SEPuser"", ""password"" : ""$SEPpass"", ""domain"" :  """" }"
+    $Body = "{""username"" : ""$SEPUser"", ""password"" : ""$SEPPass"", ""domain"" :  ""$SEPDomain"" }"
     $Result = Invoke-RestMethod -Method Post -Uri $AuthenticateURL -Body $Body -ContentType "Application/JSON" -UseBasicParsing    
     $Token = $Result.token
     $Token

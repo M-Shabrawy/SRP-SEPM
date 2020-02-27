@@ -8,6 +8,9 @@ param(
     [string]$SEPUser,
     [Parameter(Mandatory=$true)]
     [ValidateNotNullOrEmpty()]
+    [string]$SEPDomain,
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
     [string]$SEPPass,
     [Parameter(Mandatory=$false)]
     [string]$ConfigFilePath = 'C:\Program Files\LogRhythm\Smart Response Plugins\SEPM-API'
@@ -56,7 +59,7 @@ Function Validate-Input
 {
     $SEPMAPIBaseURL = "https://"+$global:SEPMServer+":8446/sepm/api/v1/"
     $AuthenticateURL = $SEPMAPIBaseURL + "identity/authenticate"
-    $Body = "{""username"" : ""$SEPuser"", ""password"" : ""$SEPpass"", ""domain"" :  """" }"
+    $Body = "{""username"" : ""$SEPUser"", ""password"" : ""$SEPPass"", ""domain"" :  ""$SEPDomain"" }"
     try{
         $Result = Invoke-RestMethod -Method Post -Uri $AuthenticateURL -Body $Body -ContentType "Application/JSON" -UseBasicParsing
     }
@@ -84,6 +87,7 @@ Function Create-Hashtable
         "SEPHost" = $SEPMServer | ConvertTo-SecureString
         "SEPUser" = $SEPUser | ConvertTo-SecureString
         "SEPPass" = $SEPPass | ConvertTo-SecureString
+        "SEPDomain" = $SEPDomain | ConvertTo-SecureString
 	}
 }
 
