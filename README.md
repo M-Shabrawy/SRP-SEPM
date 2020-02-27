@@ -6,6 +6,11 @@ You must have Symantec Endpoint Protection Manager System Administrator privileg
 Run SEPM-Setup.ps1 to create config file
 
 Then use SEPM-API.ps1 to issue the following actions:
-- 
+- Request Active Scan
+- Request Full Scan
+- Request EOC Scan
+- Request COntent Update
+- Check Command Status
+- Cancel Command
 
 Developed by Mohamed Al-Shabrawy
